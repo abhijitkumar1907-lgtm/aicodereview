@@ -29,7 +29,7 @@ public class SqlInjectionAnalyzer implements CodeAnalyzer {
                         "HIGH",
                         expr.getBegin().map(p -> p.line).orElse(-1),
                         "Possible SQL Injection.",
-                        "Use PreparedStatement instead of string concatenation."
+                        "Use Prepared Statement instead of string concatenation."
                 ));
             }
         });
