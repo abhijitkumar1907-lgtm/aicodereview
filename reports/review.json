@@ -1,0 +1,241 @@
+{
+  "reviewId" : 1,
+  "fileName" : "C:\\Users\\HP\\Desktop\\aicodereview\\src\\main\\java\\com\\codereviewer\\TestCode.java",
+  "filePath" : "C:\\Users\\HP\\Desktop\\aicodereview\\src\\main\\java\\com\\codereviewer\\TestCode.java",
+  "reviewDate" : "2026-09-14T09:39:46.697792400",
+  "totalIssues" : 38,
+  "criticalIssues" : 0,
+  "highIssues" : 1,
+  "mediumIssues" : 4,
+  "lowIssues" : 33,
+  "staticIssues" : [ {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 25,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 31,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 39,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 46,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 58,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 65,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 66,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 84,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 85,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 115,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 119,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 123,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 128,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 133,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 138,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 143,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 146,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 147,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 148,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "SYSTEM OUT",
+    "severity" : "LOW",
+    "line" : 149,
+    "message" : "System.out output is used in the code.",
+    "suggestion" : "Use a logging framework such as java.util.logging or SLF4J."
+  }, {
+    "rule" : "EMPTY_CATCH",
+    "severity" : "HIGH",
+    "line" : 73,
+    "message" : "Exception is caught but the catch block is empty.",
+    "suggestion" : "Handle, log, or rethrow the exception instead of silently ignoring it."
+  }, {
+    "rule" : "JAVA007",
+    "severity" : "MEDIUM",
+    "line" : 56,
+    "message" : "Deep nesting detected. Nesting depth: 4",
+    "suggestion" : "Reduce nesting by using early returns or extracting helper methods."
+  }, {
+    "rule" : "JAVA007",
+    "severity" : "MEDIUM",
+    "line" : 111,
+    "message" : "Deep nesting detected. Nesting depth: 4",
+    "suggestion" : "Reduce nesting by using early returns or extracting helper methods."
+  }, {
+    "rule" : "JAVA007",
+    "severity" : "MEDIUM",
+    "line" : 113,
+    "message" : "Deep nesting detected. Nesting depth: 5",
+    "suggestion" : "Reduce nesting by using early returns or extracting helper methods."
+  }, {
+    "rule" : "JAVA007",
+    "severity" : "MEDIUM",
+    "line" : 117,
+    "message" : "Deep nesting detected. Nesting depth: 6",
+    "suggestion" : "Reduce nesting by using early returns or extracting helper methods."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 9,
+    "message" : "Unnamed numeric constant found: 100",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 14,
+    "message" : "Unnamed numeric constant found: 50",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 17,
+    "message" : "Unnamed numeric constant found: 20",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 20,
+    "message" : "Unnamed numeric constant found: 5000",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 34,
+    "message" : "Unnamed numeric constant found: 50000",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 45,
+    "message" : "Unnamed numeric constant found: 10",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 50,
+    "message" : "Unnamed numeric constant found: 18",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 52,
+    "message" : "Unnamed numeric constant found: 20000",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 56,
+    "message" : "Unnamed numeric constant found: 5",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 71,
+    "message" : "Unnamed numeric constant found: 10",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 90,
+    "message" : "Unnamed numeric constant found: 100",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 105,
+    "message" : "Unnamed numeric constant found: 18",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  }, {
+    "rule" : "MAGIC_NUMBER",
+    "severity" : "LOW",
+    "line" : 107,
+    "message" : "Unnamed numeric constant found: 40",
+    "suggestion" : "Replace it with a named constant that explains its meaning."
+  } ],
+  "aiReview" : "### Summary\n\n- **Unused Field**: **[LOW]** - The field `unusedField` is declared but not used.\n- **Unused Local Variable**: **[LOW]** - The variable `unusedVariable` is declared but not used.\n- **Bad Naming Convention**: **[LOW]** - The field `StudentAge` should be named `age` for better readability.\n- **Magic Number**: **[LOW]** - The magic number `100` at line 9 and `50` at line 14 are unused.\n- **Null Assignment / Null Dereference Risk**: **[LOW]** - A `null` assignment is made to `name` on line 35, which can lead to `NullPointerException`.\n- **Division by Zero**: **[LOW]** - A division by zero occurs on line 61, which should be handled gracefully.\n- **Empty If Statement**: **[LOW]** - The if statement `if (salary u003e 50000)` is empty, but it can still be useful for future maintenance.\n- **Unnecessary If Condition**: **[LOW]** - The if condition `if (true)` is unnecessary and can be removed.\n- **Infinite Loop**: **[LOW]** - The `while` loop `while (i u003c 10)` will run indefinitely.\n- **Deeply Nested Conditions**: **[LOW]** - The deeply nested conditions are unnecessary and can be simplified.\n- **Duplicate Code**: **[LOW]** - The code blocks for calculating and printing \"Processing student\" and \"Processing completed\" are duplicated.\n- **Empty Catch Block**: **[HIGH]** - The empty catch block catches `ArithmeticException` but does not handle it, leading to potential issues.\n- **Unreachable/Dead Code**: **[LOW]** - The `calculate()` method has an unreachable statement on line 78, which should be removed.\n- **Excessive Object Creation / Unnecessary Objects**: **[LOW]** - The objects `a` and `b` are unnecessary and can be removed, improving performance and readability.\n- **Very Long / Complex Method**: **[MEDIUM]** - The method `processStudent` is too long and complex, making it difficult to understand and maintain. Consider breaking it down into smaller, more manageable methods.\n\n### Critical Issues\n\n- **System.out**: **[LOW]** - The `System.out.println` statements are unnecessary and can be removed.\n- **Deep Nesting**: **[MEDIUM]** - The deep nesting of conditions is unnecessary and can be simplified.\n\n### Suggested Fixes\n\n1. **Remove Unused Fields and Variables**:\n    - Remove `unusedField` and `unusedVariable` from the `TestCode` class.\n    - Remove the unused fields and variables from the `processStudent` method.\n\n2. **Rename `StudentAge`**:\n    - Rename `StudentAge` to `age` in the `TestCode` class.\n\n3. **Handle Null Assignments**:\n    - Add null checks to the `name` assignment to avoid `NullPointerException`.\n    - Modify the `processStudent` method to handle null values appropriately.\n\n4. **Handle Division by Zero**:\n    - Add a try-catch block around the division operation on line 61 to handle division by zero gracefully.\n\n5. **Remove Empty If Statements**:\n    - Remove the empty if statement `if (salary u003e 50000)`.\n\n6. **Remove Unnecessary If Conditions**:\n    - Remove the `if (true)` condition from the `processStudent` method.\n\n7. **Unreachable/Dead Code**:\n    - Remove the unreachable statement on line 78 from the `calculate()` method.\n\n8. **Simplify Deeply Nested Conditions**:\n    - Simplify the deeply nested conditions by breaking them into smaller, more manageable methods.\n\n9. **Refactor `processStudent` Method**:\n    - Refactor the `processStudent` method to make it more readable and maintainable by breaking it down into smaller, more manageable methods.\n\n### Overall Assessment\n\nThe code has several issues that can be addressed to improve its correctness, security, maintainability, performance, and clean code. By removing unnecessary elements, handling edge cases, and simplifying complex logic, the code can be made more robust, reliable, and easier to understand."
+}
