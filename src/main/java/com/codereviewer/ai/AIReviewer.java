@@ -1,8 +1,5 @@
 package com.codereviewer.ai;
 
-import com.codereviewer.model.codeIssue;
-import com.codereviewer.utils.PromptBuilder;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -10,6 +7,9 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.List;
+
+import com.codereviewer.model.codeIssue;
+import com.codereviewer.utils.PromptBuilder;
 
 public class AIReviewer {
 
@@ -60,11 +60,40 @@ public class AIReviewer {
 
             return false;
 
+<<<<<<< HEAD
         } catch (InterruptedException e) {
 
             Thread.currentThread().interrupt();
 
             return false;
+=======
+                case 'n' -> result.append('\n');
+
+                case 'r' -> result.append('\r');
+
+                case 't' -> result.append('\t');
+
+                case '"' -> result.append('"');
+
+                case '\\' -> result.append('\\');
+
+                default -> result.append(c);
+            }
+
+            escaped = false;
+
+        } else if (c == '\\') {
+
+            escaped = true;
+
+        } else if (c == '"') {
+
+            break;
+
+        } else {
+
+            result.append(c);
+>>>>>>> 25b91e5 (Save my local changes)
         }
     }
 
