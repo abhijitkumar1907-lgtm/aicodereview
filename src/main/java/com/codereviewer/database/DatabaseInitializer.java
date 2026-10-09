@@ -1,40 +1,39 @@
 package com.codereviewer.database;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 
+@Component
 public class DatabaseInitializer {
 
-    private DatabaseInitializer() {
-        // Prevent object creation
-    }
+    @PostConstruct
+    public void initializeDatabase() {
 
-    public static void initialize() {
-
-        String reviewsTable = """
+        String createReviewsTable = """
                 CREATE TABLE IF NOT EXISTS reviews (
-                    review_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     file_name TEXT NOT NULL,
                     file_path TEXT,
-                    review_date TEXT NOT NULL,
-                    total_issues INTEGER NOT NULL,
+                    review_date TEXT,
+                    total_issues INTEGER,
                     ai_review TEXT
                 )
                 """;
 
-        String issuesTable = """
+        String createIssuesTable = """
                 CREATE TABLE IF NOT EXISTS issues (
-                    issue_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
                     review_id INTEGER NOT NULL,
-                    rule TEXT NOT NULL,
+                    rule TEXT,
                     severity TEXT,
                     line INTEGER,
                     message TEXT,
                     suggestion TEXT,
                     FOREIGN KEY (review_id)
-                        REFERENCES reviews(review_id)
-                        ON DELETE CASCADE
+                        REFERENCES reviews(id)
                 )
                 """;
 
@@ -43,14 +42,19 @@ public class DatabaseInitializer {
              Statement statement =
                      connection.createStatement()) {
 
-            statement.execute(reviewsTable);
-            statement.execute(issuesTable);
+            statement.execute(createReviewsTable);
+            statement.execute(createIssuesTable);
 
             System.out.println(
                     "Database initialized successfully."
             );
 
-        } catch (SQLException e) {
+            System.out.println(
+                    "Database location: "
+                            + DatabaseManager.getDatabasePath()
+            );
+
+        } catch (Exception e) {
 
             System.out.println(
                     "Failed to initialize database."

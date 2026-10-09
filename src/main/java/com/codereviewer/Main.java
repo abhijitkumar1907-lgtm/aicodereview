@@ -2,73 +2,51 @@ package com.codereviewer;
 
 import com.codereviewer.ai.AIReviewer;
 import com.codereviewer.analyzer.CodeReviewer;
-import com.codereviewer.database.DatabaseInitializer;
 import com.codereviewer.database.ReviewRepository;
-import com.codereviewer.model.codeIssue;
-import com.codereviewer.model.ReviewReport;
 import com.codereviewer.model.ReviewResult;
-import com.codereviewer.utils.JsonReportGenerator;
-import com.codereviewer.utils.ReviewReportBuilder;
-
-import java.io.File;
-import java.nio.file.Files;
+import com.codereviewer.utils.JsonReportGeneration;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        // ----------------------------------------
-        // 1. Check input
-        // ----------------------------------------
+        // Sample Java source code
+        String sourceCode = """
+                public class TestCode {
 
-        if (args.length != 1) {
+                    public static void main(String[] args) {
 
-            System.out.println(
-                    "Usage:"
-            );
+                        int unusedVariable = 10;
 
-            System.out.println(
-                    "mvn exec:java "
-                    + "-Dexec.args=\"sample/Test.java\""
-            );
+                        for (int i = 0; i < 10; i++) {
+                            System.out.println(i);
+                        }
+                    }
 
-            return;
-        }
+                    public void longMethod() {
 
-        String filePath = args[0];
+                        int a = 10;
+                        int b = 20;
+                        int c = 30;
+                        int d = 40;
+                        int e = 50;
 
-        File file = new File(filePath);
+                        System.out.println(a);
+                        System.out.println(b);
+                        System.out.println(c);
+                        System.out.println(d);
+                        System.out.println(e);
+                    }
+                }
+                """;
 
-        if (!file.exists()) {
-
-            System.out.println(
-                    "File not found: "
-                            + file.getAbsolutePath()
-            );
-
-            return;
-        }
+        String filename = "TestCode.java";
 
         try {
 
-            // ----------------------------------------
-            // 2. Initialize database
-            // ----------------------------------------
-
-            DatabaseInitializer.initialize();
-
-            // ----------------------------------------
-            // 3. Read source code
-            // ----------------------------------------
-
-            String sourceCode =
-                    Files.readString(
-                            file.toPath()
-                    );
-
-            // ----------------------------------------
-            // 4. Static analysis
-            // ----------------------------------------
+            // -----------------------------------------
+            // 1. Static Code Analysis
+            // -----------------------------------------
 
             CodeReviewer codeReviewer =
                     new CodeReviewer();
@@ -76,28 +54,96 @@ public class Main {
             ReviewResult result =
                     codeReviewer.review(
                             sourceCode,
-                            file.getAbsolutePath()
+                            filename
                     );
 
-            // ----------------------------------------
-            // 5. Print static analysis
-            // ----------------------------------------
-
-            System.out.println();
             System.out.println(
-                    "======================================"
+                    "\nStatic analysis completed."
             );
 
             System.out.println(
-                    "          STATIC ANALYSIS"
+                    "Total issues found: "
+                            + result.getIssues().size()
+            );
+
+
+            // -----------------------------------------
+            // 2. AI Code Review
+            // -----------------------------------------
+
+            AIReviewer aiReviewer =
+                    new AIReviewer();
+
+            String aiReview =
+                    aiReviewer.review(
+                            sourceCode,
+                            result.getIssues()
+                    );
+
+            result.setAiReview(aiReview);
+
+            System.out.println(
+                    "\nAI review completed."
+            );
+
+
+            // -----------------------------------------
+            // 3. Save Review to Database
+            // -----------------------------------------
+
+            ReviewRepository reviewRepository =
+                    new ReviewRepository();
+
+            reviewRepository.saveReview(
+                    result,
+                    filename,
+                    aiReview
             );
 
             System.out.println(
-                    "======================================"
+                    "\nReview saved to database."
+            );
+
+
+            // -----------------------------------------
+            // 4. Generate JSON Report
+            // -----------------------------------------
+
+            JsonReportGeneration jsonReportGeneration =
+                    new JsonReportGeneration();
+
+            jsonReportGeneration.generateReport(
+                    result
             );
 
             System.out.println(
-                    "File: " + file.getName()
+                    "\nJSON report generated successfully."
+            );
+
+            System.out.println(
+                    "Location: reports/review.json"
+            );
+
+
+            // -----------------------------------------
+            // 5. Display Result
+            // -----------------------------------------
+
+            System.out.println(
+                    "\n================================="
+            );
+
+            System.out.println(
+                    "       CODE REVIEW RESULT"
+            );
+
+            System.out.println(
+                    "================================="
+            );
+
+            System.out.println(
+                    "File: "
+                            + result.getFilename()
             );
 
             System.out.println(
@@ -105,167 +151,19 @@ public class Main {
                             + result.getIssues().size()
             );
 
-            for (codeIssue issue :
-                    result.getIssues()) {
-
-                System.out.println();
-                System.out.println(
-                        "[" + issue.getSeverity()
-                                + "] "
-                                + issue.getRule()
-                );
-
-                System.out.println(
-                        "Line: "
-                                + issue.getLine()
-                );
-
-                System.out.println(
-                        "Message: "
-                                + issue.getMessage()
-                );
-
-                System.out.println(
-                        "Suggestion: "
-                                + issue.getSuggestion()
-                );
-            }
-
-            // ----------------------------------------
-            // 6. Ollama AI review
-            // ----------------------------------------
-
-            String aiReview =
-                    "AI review unavailable.";
-
-            AIReviewer aiReviewer =
-        new AIReviewer();
-
-System.out.println();
-System.out.println(
-        "======================================"
-);
-
-System.out.println(
-        "             AI REVIEW"
-);
-
-System.out.println(
-        "======================================"
-);
-
-try {
-
-    aiReview =
-            aiReviewer.review(
-                    sourceCode,
-                    result.getIssues()
-            );
-
-    System.out.println(
-            aiReview
-    );
-
-} catch (Exception e) {
-
-    System.out.println(
-            "AI review could not be completed."
-    );
-
-    System.out.println(
-            "Reason: " + e.getMessage()
-    );
-
-    System.out.println(
-            "Continuing with static analysis results."
-    );
-
-    aiReview =
-            "AI review unavailable: "
-                    + e.getMessage();
-}
-
-            // ----------------------------------------
-            // 7. Save to database
-            // ----------------------------------------
-
-            ReviewRepository repository =
-                    new ReviewRepository();
-
-            long reviewId =
-                    repository.saveReview(
-                            result,
-                            file.getAbsolutePath(),
-                            aiReview
-                    );
-
-            System.out.println();
             System.out.println(
-                    "Review saved to database."
+                    "Review Date: "
+                            + result.getReviewDate()
             );
 
             System.out.println(
-                    "Review ID: "
-                            + reviewId
-            );
-
-            // ----------------------------------------
-            // 8. Build final report
-            // ----------------------------------------
-
-            ReviewReportBuilder builder =
-                    new ReviewReportBuilder();
-
-            ReviewReport report =
-                    builder.build(
-                            result,
-                            file.getAbsolutePath(),
-                            reviewId,
-                            aiReview
-                    );
-
-            // ----------------------------------------
-            // 9. Generate JSON
-            // ----------------------------------------
-
-            JsonReportGenerator generator =
-                    new JsonReportGenerator();
-
-            generator.generate(
-                    report,
-                    "reports/review.json"
-            );
-
-            // ----------------------------------------
-            // 10. Final message
-            // ----------------------------------------
-
-            System.out.println();
-            System.out.println(
-                    "======================================"
-            );
-
-            System.out.println(
-                    "       REVIEW COMPLETED"
-            );
-
-            System.out.println(
-                    "======================================"
-            );
-
-            System.out.println(
-                    "Database : data/reviews.db"
-            );
-
-            System.out.println(
-                    "JSON     : reports/review.json"
+                    "================================="
             );
 
         } catch (Exception e) {
 
-            System.out.println();
             System.out.println(
-                    "Review failed."
+                    "\nError while running code review:"
             );
 
             e.printStackTrace();
