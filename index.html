@@ -88,7 +88,7 @@
 
     /* ── Hero ─────────────────────────────────────────── */
     .hero {
-      min-height: 85vh;
+      min-height: 80vh;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -195,19 +195,9 @@
       transform: translateY(-1px);
     }
 
-    .btn-success {
-      background: var(--accent2);
-      color: #0d1117;
-    }
-
-    .btn-success:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-    }
-
     /* ── Live Review Playground Section ──────────────── */
     #playground {
-      padding: 4rem 2rem 5rem;
+      padding: 3rem 2rem 5rem;
       max-width: 1200px;
       margin: 0 auto;
     }
@@ -241,7 +231,7 @@
 
     .sample-btn-group {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.4rem;
       align-items: center;
       flex-wrap: wrap;
     }
@@ -256,7 +246,7 @@
       background: var(--bg);
       border: 1px solid var(--border);
       color: var(--text);
-      padding: 0.3rem 0.75rem;
+      padding: 0.35rem 0.75rem;
       border-radius: 6px;
       font-size: 0.8rem;
       cursor: pointer;
@@ -309,7 +299,7 @@
     .code-editor {
       width: 100%;
       height: 100%;
-      min-height: 400px;
+      min-height: 420px;
       background: transparent;
       color: #e6edf3;
       border: none;
@@ -350,11 +340,6 @@
       padding: 3rem 1.5rem;
     }
 
-    .placeholder-output svg {
-      margin-bottom: 1rem;
-      opacity: 0.4;
-    }
-
     .report-card {
       animation: fadeIn 0.4s ease;
     }
@@ -379,6 +364,7 @@
 
     .score-good { background: rgba(126,231,135,0.15); color: var(--accent2); border: 1px solid var(--accent2); }
     .score-warn { background: rgba(247,129,102,0.15); color: var(--accent3); border: 1px solid var(--accent3); }
+    .score-neutral { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid var(--accent); }
 
     .issue-item {
       background: var(--bg);
@@ -390,6 +376,7 @@
     }
 
     .issue-item.sec { border-left-color: #ff5f57; }
+    .issue-item.bug { border-left-color: #febc2e; }
     .issue-item.style { border-left-color: var(--accent); }
     .issue-item.ok { border-left-color: var(--accent2); }
 
@@ -416,6 +403,7 @@
       font-size: 0.82rem;
       overflow-x: auto;
       color: #7ee787;
+      white-space: pre-wrap;
     }
 
     /* ── Section Styles ───────────────────────────────── */
@@ -585,8 +573,9 @@
         <div class="sample-btn-group">
           <span class="sample-label">Load Sample:</span>
           <button class="btn-sample" onclick="loadSample('sql')">SQL Injection</button>
-          <button class="btn-sample" onclick="loadSample('npe')">Null Pointer Risk</button>
+          <button class="btn-sample" onclick="loadSample('npe')">Null Pointer</button>
           <button class="btn-sample" onclick="loadSample('resource')">Resource Leak</button>
+          <button class="btn-sample" onclick="loadSample('hardcoded')">Hardcoded Secret</button>
           <button class="btn-sample" onclick="loadSample('clean')">Clean Code</button>
         </div>
       </div>
@@ -678,13 +667,14 @@ public class UserService {
     <p>AI Code Reviewer Project · Open Source on <a href="https://github.com/abhijitkumar1907-lgtm/aicodereview" target="_blank">GitHub</a></p>
   </footer>
 
-  <!-- ── Interactive Script ───────────────────────────── -->
+  <!-- ── Interactive Engine ───────────────────────────── -->
   <script>
     const samples = {
-      sql: `public class UserRepository {\n    public User findUser(String username, String password) {\n        String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";\n        Statement stmt = connection.createStatement();\n        ResultSet rs = stmt.executeQuery(query);\n        if (rs.next()) return new User(rs.getString("username"));\n        return null;\n    }\n}`,
-      npe: `public class OrderProcessor {\n    public double calculateTotal(Order order) {\n        double total = 0;\n        for (Item item : order.getItems()) {\n            total += item.getPrice() * item.getQuantity();\n        }\n        return total;\n    }\n}`,
-      resource: `public class FileUtil {\n    public String readFile(String path) throws Exception {\n        FileInputStream fis = new FileInputStream(path);\n        byte[] data = new byte[fis.available()];\n        fis.read(data);\n        return new String(data);\n    }\n}`,
-      clean: `public class Calculator {\n    public int add(int a, int b) {\n        return Math.addExact(a, b);\n    }\n}`
+      sql: `public class UserRepository {\n    public User findUser(String username, String password) {\n        // Vulnerable raw SQL string concatenation\n        String query = "SELECT * FROM users WHERE username = '" + username + "' AND password = '" + password + "'";\n        Statement stmt = connection.createStatement();\n        ResultSet rs = stmt.executeQuery(query);\n        if (rs.next()) return new User(rs.getString("username"));\n        return null;\n    }\n}`,
+      npe: `public class OrderProcessor {\n    public double calculateTotal(Order order) {\n        double total = 0;\n        // Potential NPE if order.getItems() returns null\n        for (Item item : order.getItems()) {\n            total += item.getPrice() * item.getQuantity();\n        }\n        return total;\n    }\n}`,
+      resource: `public class FileUtil {\n    public String readFile(String path) throws Exception {\n        // Unclosed FileInputStream stream leak\n        FileInputStream fis = new FileInputStream(path);\n        byte[] data = new byte[fis.available()];\n        fis.read(data);\n        return new String(data);\n    }\n}`,
+      hardcoded: `public class SecurityConfig {\n    private static final String API_SECRET = "sk_live_9948281194726194";\n    private static final String DB_PASS = "admin123456";\n    \n    public void connect() {\n        System.out.println("Connecting with secret: " + API_SECRET);\n    }\n}`,
+      clean: `public class MathUtils {\n    /**\n     * Safely adds two integers with overflow checking.\n     */\n    public int safeAdd(int a, int b) {\n        return Math.addExact(a, b);\n    }\n}`
     };
 
     const editor = document.getElementById('codeEditor');
@@ -725,7 +715,7 @@ public class UserService {
         <div style="text-align: center; padding: 3rem;">
           <div style="font-size: 2rem; margin-bottom: 1rem;">🔍</div>
           <p style="font-weight: 600;">Running AI Code Analysis...</p>
-          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Scanning for bugs, OWASP security threats & performance leaks</p>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem;">Scanning AST rules, OWASP vulnerabilities & resource leaks</p>
         </div>
       `;
 
@@ -733,64 +723,106 @@ public class UserService {
         analyzeBtn.disabled = false;
         analyzeBtn.innerHTML = '⚡ Run AI Review';
         generateReport(code);
-      }, 700);
+      }, 500);
     }
 
     function generateReport(code) {
       let issues = [];
-      let score = 9.2;
-      let refactored = '';
+      let deductions = 0;
+      let refactorCode = '';
 
-      if (code.includes('WHERE') && code.includes('+')) {
-        score = 3.5;
+      // Rule 1: SQL Injection
+      const hasSqlConcat = (code.includes('WHERE') || code.includes('SELECT') || code.includes('INSERT') || code.includes('UPDATE')) && code.includes('+');
+      if (hasSqlConcat) {
+        deductions += 5.5;
         issues.push({
           type: 'sec',
           title: '🚨 CRITICAL: SQL Injection Vulnerability (OWASP A03)',
-          desc: 'Concatenating raw user inputs into SQL strings allows attackers to execute arbitrary SQL commands. Use PreparedStatement instead.'
+          desc: 'Dynamic SQL query constructed with string concatenation. Attackers can bypass authentication or extract/drop databases using SQL payload injection.'
         });
-        refactored = `// Fixed with PreparedStatement\nString query = "SELECT * FROM users WHERE username = ? AND password = ?";\nPreparedStatement pstmt = connection.prepareStatement(query);\npstmt.setString(1, username);\npstmt.setString(2, password);\nResultSet rs = pstmt.executeQuery();`;
+        refactorCode += `// 1. Use PreparedStatement to eliminate SQL Injection\nString query = "SELECT * FROM users WHERE username = ? AND password = ?";\ntry (PreparedStatement pstmt = connection.prepareStatement(query)) {\n    pstmt.setString(1, username);\n    pstmt.setString(2, password);\n    try (ResultSet rs = pstmt.executeQuery()) {\n        if (rs.next()) return new User(rs.getString("username"));\n    }\n}\n`;
       }
 
-      if (code.includes('order.getItems()') || code.includes('.get')) {
-        if (!code.includes('if (') && !code.includes('Objects.requireNonNull')) {
-          score = Math.min(score, 6.8);
-          issues.push({
-            type: 'bug',
-            title: '⚠️ Potential NullPointerException',
-            desc: 'Property dereferencing without checking if object or returned collection is null.'
-          });
+      // Rule 2: Hardcoded Secrets
+      const hasSecret = /("sk_live[a-zA-Z0-9_]+"|"admin123456"|password\s*=\s*"[^"]+"|secret\s*=\s*"[^"]+"|API_KEY\s*=\s*"[^"]+")/i.test(code);
+      if (hasSecret) {
+        deductions += 3.5;
+        issues.push({
+          type: 'sec',
+          title: '🚨 HIGH: Hardcoded API Keys or Passwords (OWASP A07)',
+          desc: 'Sensitive credentials, private keys, or passwords detected inline. Move them to environment variables or a key vault.'
+        });
+      }
+
+      // Rule 3: Resource Leaks (unclosed streams/connections without try-with-resources)
+      const hasResource = /new\s+(FileInputStream|FileReader|BufferedReader|Scanner|Socket|Connection|Statement)/.test(code);
+      const hasTryWithResources = /try\s*\([^)]*new\s+/.test(code) || (code.includes('try (') && code.includes(')'));
+      const hasExplicitClose = code.includes('.close()');
+
+      if (hasResource && !hasTryWithResources && !hasExplicitClose) {
+        deductions += 3.0;
+        issues.push({
+          type: 'bug',
+          title: '⚠️ Unclosed I/O Resource / File Stream Leak',
+          desc: 'File streams or database handles allocated without try-with-resources. This can cause file locking or memory leaks in production.'
+        });
+        if (!refactorCode) {
+          refactorCode += `// 2. Use try-with-resources for automatic cleanup\ntry (FileInputStream fis = new FileInputStream(path)) {\n    byte[] data = fis.readAllBytes();\n    return new String(data, StandardCharsets.UTF_8);\n}\n`;
         }
       }
 
-      if (code.includes('FileInputStream') || code.includes('Statement') || code.includes('Connection')) {
-        if (!code.includes('try-with-resources') && !code.includes('close()') && !code.includes('try (')) {
-          score = Math.min(score, 5.5);
-          issues.push({
-            type: 'bug',
-            title: '⚠️ Unclosed Resource / Memory Leak',
-            desc: 'System resource allocated without try-with-resources block or explicit close() in finally block.'
-          });
-          refactored = `// Fixed with try-with-resources\ntry (FileInputStream fis = new FileInputStream(path)) {\n    return new String(fis.readAllBytes(), StandardCharsets.UTF_8);\n}`;
-        }
+      // Rule 4: Potential Null Pointer Exception
+      const hasUncheckedGet = /\.[a-zA-Z0-9_]+\(\)\.[a-zA-Z0-9_]+\(\)/.test(code) || (code.includes('.getItems()') && !code.includes('!= null'));
+      if (hasUncheckedGet) {
+        deductions += 2.0;
+        issues.push({
+          type: 'bug',
+          title: '⚠️ Potential NullPointerException (NPE)',
+          desc: 'Chained method calls detected without null validation. If an intermediate call returns null, the thread will throw NullPointerException.'
+        });
       }
 
+      // Rule 5: System.out.println in production
+      if (code.includes('System.out.println') || code.includes('System.err.println')) {
+        deductions += 0.8;
+        issues.push({
+          type: 'style',
+          title: 'ℹ️ Code Smell: Direct Console Output',
+          desc: 'Avoid System.out.println in production Java code. Use a structured logging framework like SLF4J or Log4j2.'
+        });
+      }
+
+      // Rule 6: Empty Catch Block
+      if (/catch\s*\([^)]+\)\s*\{\s*\}/.test(code)) {
+        deductions += 2.5;
+        issues.push({
+          type: 'bug',
+          title: '⚠️ Empty Catch Block (Swallowed Exception)',
+          desc: 'An exception is caught but silently ignored. Always log exceptions or propagate them to prevent unhandled background failures.'
+        });
+      }
+
+      // Calculate final score
+      let finalScore = Math.max(1.0, Math.min(10.0, 10.0 - deductions));
       if (issues.length === 0) {
+        finalScore = 9.5;
         issues.push({
           type: 'ok',
-          title: '✅ Code Looks Great!',
-          desc: 'No critical security bugs, memory leaks, or unhandled null pointers detected.'
+          title: '✅ High Quality Code Verified!',
+          desc: 'No critical security vulnerabilities, resource leaks, or unhandled exceptions detected.'
         });
       }
 
-      const scoreClass = score >= 8.0 ? 'score-good' : 'score-warn';
+      const scoreClass = finalScore >= 8.0 ? 'score-good' : (finalScore >= 5.0 ? 'score-neutral' : 'score-warn');
+      const statusText = finalScore >= 8.0 ? 'High Quality' : (finalScore >= 5.0 ? 'Fair / Refactor Recommended' : 'Critical Issues Detected');
 
       document.getElementById('reportView').innerHTML = `
         <div class="score-banner">
           <div>
             <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Overall Quality Score</div>
-            <div style="font-weight: 700; font-size: 1.1rem; margin-top: 0.2rem;">${score >= 8.0 ? 'High Quality' : 'Needs Attention'}</div>
+            <div style="font-weight: 700; font-size: 1.1rem; margin-top: 0.2rem;">${statusText}</div>
           </div>
-          <div class="score-badge ${scoreClass}">${score.toFixed(1)} / 10</div>
+          <div class="score-badge ${scoreClass}">${finalScore.toFixed(1)} / 10</div>
         </div>
 
         <div style="margin-bottom: 1rem; font-weight: 700; font-size: 0.95rem;">Review Findings (${issues.length})</div>
@@ -801,9 +833,9 @@ public class UserService {
           </div>
         `).join('')}
 
-        ${refactored ? `
-          <div style="margin-top: 1.25rem; font-weight: 700; font-size: 0.9rem; color: var(--accent2);">💡 AI Recommended Fix:</div>
-          <div class="suggested-code"><code>${refactored.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></div>
+        ${refactorCode ? `
+          <div style="margin-top: 1.25rem; font-weight: 700; font-size: 0.9rem; color: var(--accent2);">💡 AI Suggested Refactored Code:</div>
+          <div class="suggested-code"><code>${refactorCode.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></div>
         ` : ''}
       `;
     }
